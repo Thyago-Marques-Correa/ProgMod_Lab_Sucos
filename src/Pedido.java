@@ -10,27 +10,25 @@ public class Pedido {
 	}
 
 	public int adicionar(Bebida item) {
-		if(item != null)
+		if (item != null)
 			itens.add(item);
-		return  itens.size();
+		return itens.size();
 	}
 
 	public double preco() {
-		double valor = 0;
-		for (Bebida bebida : itens) {
-			valor+= bebida.preco();
-		}
-		return  valor;
+		double total = 0;
+		for (Bebida bebida : itens)
+			total += bebida.preco();
+		return total;
 	}
 
-	@Override 
+	@Override
 	public String toString() {
-		StringBuilder cupom = new StringBuilder("PEDIDO COM "+itens.size()+" ITENS\n");
-		for (Bebida bebida : itens) {
-			cupom.append("\t"+bebida+"\n");
-		}
-		cupom.append("A PAGAR: R$ "+preco());
-		return  cupom.toString();
+		StringBuilder cupom = new StringBuilder("PEDIDO COM " + itens.size() + " ITENS\n");
+		for (Bebida bebida : itens)
+			cupom.append("\t").append(bebida).append("\n");
+		cupom.append(String.format("A PAGAR: R$ %.2f", preco()));
+		return cupom.toString();
 	}
 
 }

@@ -1,39 +1,34 @@
-
 public class Vitamina extends Bebida {
 
 	private static final double ACRESCIMO = 2.5;
-
+	private static final int MAXIMO_FRUTAS = 3;
 
 	public Vitamina(EFruta fruta) {
-		super("VITAMINA");
-		if(fruta != null)
-			frutas.add(fruta);
-	
+		super("Vitamina");
+		adicionar(fruta);
 	}
 
-	@Override 
+	@Override
 	public int adicionar(EFruta fruta) {
-		if(frutas.size() < 3  && fruta != null){
+		if (fruta != null && frutas.size() < MAXIMO_FRUTAS)
 			frutas.add(fruta);
-		}
-		return  frutas.size();
+		return frutas.size();
 	}
 
-	@Override 
+	@Override
 	public double preco() {
-		double valor = 0;
-		for (EFruta eFruta : frutas) {
-			valor += eFruta.valor();
-		}
-		valor =  valor / frutas.size();
-		valor += ACRESCIMO;
-		if(frutas.size() > 1){
-			double tamanho = 0.2 * frutas.size();
-			valor *= (1+tamanho);
-		}
-		return  valor;
+		if (frutas.isEmpty())
+			return 0;
+		double media = frutas.stream().mapToDouble(EFruta::valor).average().getAsDouble();
+		return (media + ACRESCIMO) * fatorTamanho();
 	}
 
-	
+	private double fatorTamanho() {
+		return switch (frutas.size()) {
+			case 2 -> 1.4;
+			case 3 -> 1.6;
+			default -> 1.0;
+		};
+	}
 
 }
